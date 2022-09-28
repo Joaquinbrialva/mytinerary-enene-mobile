@@ -10,9 +10,20 @@ import Edit from '../Screens/Edit'
 import SignIn from '../Screens/SignIn'
 import SignUp from '../Screens/SignUp'
 import NewCity from '../Screens/NewCity'
+import { useSelector } from 'react-redux'
+
 const DrawerNavigator = createDrawerNavigator();
 
+
+
 export default function Drawer() {
+
+  const user = useSelector(state => state.auth.user)
+  const role = useSelector(state => state.auth.role)
+  const logged = useSelector(state => state.auth.logged)
+
+  console.log(user)
+
   return (
     <Provider store={store}>
     <DrawerNavigator.Navigator>
