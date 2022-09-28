@@ -1,17 +1,18 @@
 import React from 'react'
-import { View,Text,Button} from 'react-native'
+import { View, Text, Button} from 'react-native'
 import { useState } from "react"
-import { useGetItinerariesUserQuery, useRemoveItineraryMutation } from "../features/citiesAPI"
-import '../styles/ItineraryUser.css'
+import { useGetItinerariesUserQuery, useRemoveItineraryMutation } from "../../features/citiesAPI"
+// import '../styles/ItineraryUser.css'
 import ModalEdit from "./Modals/ModalEdit"
-import * as jose from 'jose'
+// import * as jose from 'jose'
 
 export default function EventItineraries() {
 
-    const tokenDecoded = jose.decodeJwt(localStorage.getItem('token'))
+    // const tokenDecoded = jose.decodeJwt(localStorage.getItem('token'))
     const [input, setInput] = useState(false)
     const [idel, setIdel] = useState({})
-    const id = tokenDecoded.id
+    // const id = tokenDecoded.id
+    const id = '63239ae771c1230c5342c6c8'
 
     const [destroyItinerary] = useRemoveItineraryMutation()
     const {
@@ -43,7 +44,7 @@ export default function EventItineraries() {
 
     let cityShow = (city) => (
         <View >
-            <Button onPress={handleDelete} value={city._id} >x</Button>
+            <Button onPress={handleDelete} title="Delete" value={city._id} >x</Button>
             <Text > {city.name}</Text>
 
 
@@ -55,7 +56,7 @@ export default function EventItineraries() {
             <Text >Tags:  {city.tags}</Text>
             <Text >Duration: {city.duration}</Text>
 
-            <Button onPress={() => setIdel({
+            <Button title='Edit' onPress={() => setIdel({
                 id: city._id,
                 user: city.user.name,
                 likes: city.likes,
