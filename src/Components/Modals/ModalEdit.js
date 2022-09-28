@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useEditItineraryMutation } from '../../features/citiesAPI'
+import { useEditItineraryMutation } from '../../../features/citiesAPI'
 import Swal from 'sweetalert2'
-import { Button, View } from 'react-native'
+import { Button, View, Text} from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
+
+
 export default function ModalEdit({onclose,elemento}) {
 
   const [editItinerary]=useEditItineraryMutation()
 
 
- const [price,setPrice]=useState()
- const [duration,setDuration]=useState()
- const [tags,setTags]=useState()
- const [name,setName]=useState()
-const [edit,setEdit]=useState()
+  const [price,setPrice]=useState()
+  const [duration,setDuration]=useState()
+  const [tags,setTags]=useState()
+  const [name,setName]=useState()
+  const [edit,setEdit]=useState()
 
   useEffect(()=>{
     let editItiner ={
@@ -29,7 +31,7 @@ const [edit,setEdit]=useState()
 
   },[elemento.id,elemento.user,elemento.likes,elemento.cityId,price,duration,tags])
 
-  
+
 
 
 
@@ -66,14 +68,16 @@ const [edit,setEdit]=useState()
 
         }
         //mandarlo al controlador update
-      editItinerary(edit)
-      .unwrap()
-      .then(() => {      Swal.fire({
-                          icon:'success',
-                          title:'Edited with success',
-                          text:'if you will edit agait thats itinerary, can do it , if finished please press close for the come back the previus page',
-                          confirmButtonText:'ok'
-                                })})
+  editItinerary(edit)
+    .unwrap()
+    .then(() => {
+      Swal.fire({
+          icon:'success',
+          title:'Edited with success',
+          text:'if you will edit agait thats itinerary, can do it , if finished please press close for the come back the previus page',
+          confirmButtonText:'ok'
+        })
+      })
       .then((error) => {
          console.log(error)
       })
@@ -87,23 +91,20 @@ const [edit,setEdit]=useState()
           <Text >edit your itinerary </Text>
             <Text>Name </Text>
             <TextInput type='text' onChange={handleName}></TextInput>
-            
-            <Text >User : {elemento.user}</Text>
-            
+
             <Text>City: {elemento.cities} </Text>
-           
+
             <Text>Price: </Text>
             <TextInput type='number' onChange={handlePrice} ></TextInput>
-            <Text>Likes:  {elemento.likes} </Text>
             <Text>Tags:  </Text>
             <TextInput type='number' onChange={handleTags} ></TextInput>
             <Text>Duration:</Text>
             <TextInput type='number' onChange={handleDuration} ></TextInput>
-            <div>
-            <Button onPress={handleSubmit}>Save</Button>
-            <Button onPress={onclose}>Close</Button>
+            <View>
+            <Button title='save' onPress={handleSubmit}>Save</Button>
+            <Button  title='close' onPress={onclose}>Close</Button>
 
-            </div>
+            </View>
     </View>
   )
 }

@@ -1,6 +1,3 @@
-import { View, Text } from 'react-native'
-import { Provider } from 'react-redux'
-import store from '../Features/store'
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import HomeScreen from '../Screens/HomeScreen'
@@ -22,19 +19,44 @@ export default function Drawer() {
   const role = useSelector(state => state.auth.role)
   const logged = useSelector(state => state.auth.logged)
 
-  console.log(user)
+  const navItems = [
+    {name: "Home", component:HomeScreen},
+    {name: "Cities", component:CitiesScreen},
+    
+  ]
+
+  console.log(role)
+
+  if (role === null) {
+    navItems.push(
+      {name: "SignIn", component:SignIn},
+      {name: "SignUp", component:SignUp}
+      )
+  }
+
+  if(role === 'user'){
+    navItems.push({name: "Itineraries", component:MytinerariesScreen})
+  }
+
+  if(role === "admin"){
+    navItems.push(
+      {name: "Itineraries", component:MytinerariesScreen},
+      {name: "Edit", component:Edit},
+      {name: "New City", component:NewCity}
+      )
+  }
+
+
+
+
+
+  const generateBtn = (item) => (
+    <DrawerNavigator.Screen name={ item.name } component={ item.component }/>
+  )
 
   return (
-    <Provider store={store}>
     <DrawerNavigator.Navigator>
-      <DrawerNavigator.Screen name='home' component={HomeScreen}/>
-      <DrawerNavigator.Screen name='cities' component={CitiesScreen}/>
-      <DrawerNavigator.Screen name='itineraries' component={MytinerariesScreen}/>
-      <DrawerNavigator.Screen name='newcity' component={NewCity}/>
-      <DrawerNavigator.Screen name='edit' component={Edit}/>
-      <DrawerNavigator.Screen name='signIn' component={SignIn}/>
-      <DrawerNavigator.Screen name='singUp' component={SignUp}/>
+      {navItems.map(generateBtn)}
     </DrawerNavigator.Navigator>
-    </Provider>
   )
 }
