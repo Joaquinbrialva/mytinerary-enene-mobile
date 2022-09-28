@@ -70,7 +70,7 @@ export default function EventItineraries() {
 
     return (
         <View>
-            <Text>Itineraries</Text>
+            {!input ? <Text>Itineraries</Text> : null}
             <View >
 
                 {input ? <ModalEdit elemento={idel} onclose={handleClose} /> : elem ? elem.response.map(cityShow) : ''}
