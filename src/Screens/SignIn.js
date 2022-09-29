@@ -1,11 +1,13 @@
 
-import { View,Text, Button } from 'react-native'
+import { View,Text, Button,StyleSheet, Alert } from 'react-native'
 import React, { useEffect,useState } from 'react'
 import {useAddUserSignInMutation} from '../../features/citiesAPI'
-import Swal from 'sweetalert2'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../../features/authSlice'
 import { TextInput } from 'react-native-gesture-handler'
+import { AsyncStorage } from '@react-native-async-storage/async-storage'
+import SweetAlert from 'react-native-sweet-alert';
+
 
 
 export default function SignIn() {
@@ -18,14 +20,7 @@ const [user,setUser]=useState()
 
 
 
-const handleEmail = function(e){
-    setEmail(e.target.value)
-    
-}
-const handlePassword = function(e){
-    setPassword(e.target.value)
-    
-}
+
 
 
 useEffect(()=>{
@@ -44,36 +39,25 @@ const [signInUser] = useAddUserSignInMutation()
 
 async function handleSubmit (e) {
     e.preventDefault()
+    console.log('hola')
+    console.log(user)
     if(user.mail.includes('@')===false){
-        Swal.fire({
-            title:'Error email',
-            text:'need include the @ sign',
-            confirmButtonText:'Write Again'
-        })
+      Alert.alert('your mail not include @ simbol')
     }else if(user.password.length < 4 ){
-        Swal.fire({
-            title:'Error Password',
-            text:'need be more of 4 characters',
-            confirmButtonText:'Write Again'
-
-        })
+      Alert.alert('your password need had more of 4 characters ')
 
     }else{
 
     try {
         let res = await signInUser(user)
+        AsyncStorage.setItem('token',JSON.stringify(res.data.response.user))
         dispatch(setCredentials(res.data.response.user))
     }catch(err){
         console.error(err)
     }
 
-
-       Swal.fire({
-        icon:'success',
-        title:'Sign In successfully',
-        text : 'please look and read or create yours itineraries',
-        confirmButtonText:'Do It'
-       })
+    Alert.alert('you are signIn succesfully')
+    
     }
 }
 
@@ -81,19 +65,19 @@ async function handleSubmit (e) {
 
 
   return (
-    <View >
-        <Text >Please Sign In</Text>
+    <View style={styles.container}>
+        <Text style={styles.title}>Please Sign In</Text>
       <View onSubmit={handleSubmit} >
     <View >
         <View >
 
-    <Text >Email</Text>
-    <TextInput type='text' onChange={handleEmail}></TextInput>
-    <Text >Password</Text>
-    <TextInput type='password' onChange={handlePassword}></TextInput>
+    <Text style={styles.fixToText}>Email</Text>
+    <TextInput style={styles.inputs} type='mail' onChangeText={text =>setEmail(text)}></TextInput>
+    <Text style={styles.fixToText} >Password</Text>
+    <TextInput style={styles.inputs} secureTextEntry={true} type='password' onChangeText={text =>setPassword(text)}></TextInput>
         </View>
-        <View >
-        <Button title='signIn' >Sign In</Button>
+        <View style={styles.button}>
+        <Button style={ styles.textButton} title='Sign In'  onPress={handleSubmit}>Sign In</Button>
 
         </View>
     </View>
@@ -101,5 +85,69 @@ async function handleSubmit (e) {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginLeft:50,
+    marginTop:50,
+    justifyContent:'space between',
+    alignItems:'center',
+    textAlign:'center',
+    width:300,
+    height:400,
+    color:'blue',
+    borderRadius:10,
+    overflow:'hidden',
+    backgroundColor :'white',
+    borderWidth:1
+    
+ 
+    
+  },
+  title: {
+    textAlign: 'center',
+    marginTop:70,
+    fontSize:25,
+    color:'green',
+    fontStyle:'italic',
+  },
+  fixToText: {
+    justifyContent: 'space-between',
+    fontStyle:'italic',
+    marginTop : 40,
+    marginBottom:8,
+    textAlign:'center',
+    borderBottom:5,
+    fontSize:20
+  },
+
+  inputs:{
+
+   
+   
+    borderRadius:5,
+    width:200,
+    height:30,
+    color:'black',
+    backgroundColor: '#FFFFFF',
+    borderWidth:0.5
+  
+  },
+  button: {
+    marginTop:20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 5,
+    paddingHorizontal: 25,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#C0C0C0',
+  },
+  textButton: {
+    color:'black'
+  },
+
+
+});
 
 
