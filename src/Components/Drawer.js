@@ -12,8 +12,6 @@ import LogOut from '../Components/LogOut'
 
 const DrawerNavigator = createDrawerNavigator();
 
-
-
 export default function Drawer() {
 
   const user = useSelector(state => state.auth.user)
@@ -21,38 +19,35 @@ export default function Drawer() {
   const logged = useSelector(state => state.auth.logged)
 
   const navItems = [
-    {name: "Home", component:HomeScreen},
-    {name: "Cities", component:CitiesScreen},
-    
+    { name: "Home", component: HomeScreen },
+    { name: "Cities", component: CitiesScreen },
+
   ]
 
   console.log(role)
 
   if (role === null) {
     navItems.push(
-      {name: "SignIn", component:SignIn},
-      {name: "SignUp", component:SignUp}
-      )
+      { name: "SignIn", component: SignIn },
+      { name: "SignUp", component: SignUp }
+    )
   }
 
-  if(role === 'user'){
-    navItems.push({name: "Itineraries", component:MytinerariesScreen},{name:'logout', component:LogOut})
+  if (role === 'user') {
+    navItems.push({ name: "Itineraries", component: MytinerariesScreen }, { name: 'logout', component: LogOut })
   }
 
-  if(role === "admin"){
+  if (role === "admin") {
     navItems.push(
-      {name: "Itineraries", component:MytinerariesScreen},
-      {name: "Edit", component:Edit},
-      {name: "New City", component:NewCity}
-      )
+      { name: "Itineraries", component: MytinerariesScreen },
+      { name: "Edit", component: Edit },
+      { name: "New City", component: NewCity },
+      { name: 'logout', component: LogOut }
+    )
   }
-
-
-
-
 
   const generateBtn = (item) => (
-    <DrawerNavigator.Screen name={ item.name } component={ item.component }/>
+    <DrawerNavigator.Screen name={item.name} component={item.component} />
   )
 
   return (
