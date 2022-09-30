@@ -1,12 +1,13 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Button } from 'react-native'
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 import APIurl from '../APIBack'
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CityCard() {
-
+    
     const [cities, setCities] = useState([])
 
     useEffect(() => {
@@ -15,7 +16,9 @@ export default function CityCard() {
             .catch(err => console.error(err))
     }, [])
 
-    const card = item => {
+    function card (item) {
+
+        const navigation = useNavigation(); 
 
         return (
             <View className="card">
@@ -25,9 +28,12 @@ export default function CityCard() {
                 <View className="card-content">
                     <Text>Country: {item.country}</Text>
                     <Text>City: {item.city}</Text>
-                    {/* <View className="btns-container">
-                        
-                    </View> */}
+                    <View className="btns-container">
+                        <Button
+                            title="Go to Details"
+                            onPress={() => navigation.navigate('Details', {itemId: item._id})}
+                        />
+                    </View>
                 </View>
             </View>
         )
