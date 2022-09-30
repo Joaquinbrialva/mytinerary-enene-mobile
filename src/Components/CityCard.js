@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react';
 import APIurl from '../APIBack'
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CityCard() {
 
@@ -16,8 +17,10 @@ export default function CityCard() {
             .catch(err => console.error(err))
     }, [filteredCity])
 
-    
+
     const card = item => {
+
+        const navigation = useNavigation();
 
         return (
             <ScrollView>
@@ -30,9 +33,9 @@ export default function CityCard() {
                         <Text style={styles.text}>City: {item.city}</Text>
                         <View style={styles.btnContainer}>
                             <Button
-                                onPress={() => console.log(item._id)}
-                                title = "See more..."
-                                color = "#ABBF7C"
+                                color="#ABBF7C"
+                                title="See more..."
+                                onPress={() => navigation.navigate('Details', { itemId: item._id })}
                             />
                         </View>
                     </View>
@@ -58,19 +61,19 @@ const styles = StyleSheet.create({
         width: 300,
         height: 150,
     },
-    card:{
-        marginLeft:'auto',
-        marginRight:'auto',
+    card: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
         marginTop: 25,
-        marginBottom:25,
-        alignItems:'center',
-        textAlign:'center',
-        width:300,
-        height:300,
-        borderRadius:10,
-        overflow:'hidden',
-        backgroundColor :'white',
-        borderWidth:1,
+        marginBottom: 25,
+        alignItems: 'center',
+        textAlign: 'center',
+        width: 300,
+        height: 300,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: 'white',
+        borderWidth: 1,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -80,32 +83,32 @@ const styles = StyleSheet.create({
         shadowRadius: 16.00,
 
         elevation: 10,
-        backgroundColor:'#E2E2E2',
+        backgroundColor: '#E2E2E2',
     },
-    textContainer:{
-        display:'flex',
+    textContainer: {
+        display: 'flex',
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems: 'center'
     },
     text: {
-        marginTop:25,
-        fontWeight:'bold',
+        marginTop: 25,
+        fontWeight: 'bold',
         width: 'auto',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    textInput:{
+    textInput: {
         marginTop: 25,
-        borderWidth:1,
+        borderWidth: 1,
         width: 300,
         marginLeft: 'auto',
         marginRight: 'auto',
         paddingLeft: 10,
-        fontWeight:'bold',
+        fontWeight: 'bold',
     },
-    btnContainer:{
+    btnContainer: {
         marginTop: 10,
-        color:'black'
+        color: 'black'
     }
 });
