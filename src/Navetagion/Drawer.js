@@ -8,6 +8,7 @@ import SignIn from '../Screens/SignIn'
 import SignUp from '../Screens/SignUp'
 import NewCity from '../Screens/NewCity'
 import { useSelector } from 'react-redux'
+import LogOut from '../Components/LogOut'
 
 const DrawerNavigator = createDrawerNavigator();
 
@@ -30,12 +31,12 @@ export default function Drawer() {
   if (role === null) {
     navItems.push(
       {name: "SignIn", component:SignIn},
-      {name: "SignUp", component:SignUp},
+      {name: "SignUp", component:SignUp}
       )
   }
 
   if(role === 'user'){
-    navItems.push({name: "Itineraries", component:MytinerariesScreen})
+    navItems.push({name: "Itineraries", component:MytinerariesScreen},{name:'logout', component:LogOut})
   }
 
   if(role === "admin"){
