@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Details from './src/Components/Details';
 import HomeScreen from './src/Screens/HomeScreen';
 import Drawer from './src/Components/Drawer';
+import Index from './src/Navetagion/Index'
 
 export default function App() {
 
@@ -16,12 +17,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <StatusBar style='auto' />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={HomeScreen}>
-          <Stack.Screen name='Drawer' component={Drawer} options={{ headerShown: false }} />
-          <Stack.Screen name="Details" component={Details} />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <Index />
     </Provider>
   )
 }
