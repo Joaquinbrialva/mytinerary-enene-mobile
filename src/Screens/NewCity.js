@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, ImageBackground } from 'react-native'
 import NewCityForm from '../Components/NewCityForm'
 
 export default function NewCity() {
