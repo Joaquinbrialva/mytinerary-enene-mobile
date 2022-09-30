@@ -43,7 +43,8 @@ export default function Drawer() {
     navItems.push(
       {name: "Itineraries", component:MytinerariesScreen},
       {name: "Edit", component:Edit},
-      {name: "New City", component:NewCity}
+      {name: "New City", component:NewCity},
+      {name:'logout', component:LogOut}
       )
   }
 
