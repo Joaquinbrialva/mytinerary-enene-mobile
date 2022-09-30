@@ -4,7 +4,7 @@ import axios from 'axios'
 import Arrow from './Arrow';
 import { useEffect, useState } from 'react';
 import APIurl from '../APIBack'
-import { TextInput } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 
 export default function Carousel() {
@@ -46,44 +46,40 @@ export default function Carousel() {
   }
 
 
-  useEffect(() => {
-    let id = setInterval(function () {
-      next();
-    }, 3000)
+  // useEffect(() => {
+  //   let id = setInterval(function () {
+  //     next();
+  //   }, 3000)
 
-    setIntervalId(id)
+  //   setIntervalId(id)
 
-    return () => clearInterval(intervalId);
-  }, [getStart]);
+  //   return () => clearInterval(intervalId);
+  // }, [getStart]);
 
 
 
 
   const itemView = (item) => (
-    <View >
+    <View style={styles.carousel} >
       <Image style={styles.logo} source={{ uri: item.photo }} />
-      <Text >{item.city}</Text>
+      <Text style={{fontSize:16,fontStyle:'italic' , padding:20,marginTop:1, }}>{item.city}</Text>
     </View>
   )
 
   return (
     <>
       <View >
-        <Text>Popular MYtineraries</Text>
+        <Image style={styles.hero} source={require('../../assets/hero.png')}/>
+        <Text style={{textAlign:'center',fontSize:22,fontStyle:'italic' , padding:20,marginTop:10,marginBottom:10,backgroundColor:'#FFB266'}}>Popular MYtineraries</Text>
+
       </View>
       <View >
-        <View >
-          <Arrow click={previus}>
-            <TextInput type="image" src="https://cdn-icons-png.flaticon.com/512/271/271220.png" alt="Left arrow"></TextInput>
-          </Arrow>
-        </View>
-        <View >
-          {cities.slice(getStart, getEnd).map(itemView)}
-        </View>
-        <View >
-          <Arrow click={next}>
-            <TextInput type="image" src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="Right arrow"></TextInput>
-          </Arrow>
+        <View style={styles.container}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {cities.map(itemView)}
+
+        </ScrollView>
+
         </View>
       </View>
     </>
@@ -92,7 +88,24 @@ export default function Carousel() {
 
 const styles = StyleSheet.create({
   logo: {
-    width: 200,
-    height: 100,
+    marginTop:10,
+    width: 210,
+    height: 200,
+    borderRadius:10,
+    overflow:'hidden',
   },
+  container:{
+   flexDirection:'row'
+
+
+  },
+  hero:{
+    width:420,
+    height:300,
+  },
+  carousel:{
+    marginRight:20,
+    justifyContent:"center",
+    alignItems:'center'
+  }
 });
