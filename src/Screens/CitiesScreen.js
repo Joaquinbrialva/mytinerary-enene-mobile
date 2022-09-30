@@ -1,19 +1,11 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import CityCard from '../Components/CityCard'
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function CitiesScreen() {
   return (
-    <View>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-      <Text>CitiesScreen</Text>
-    </View>
+    <ScrollView>
+      <CityCard />
+    </ScrollView>
   )
 }

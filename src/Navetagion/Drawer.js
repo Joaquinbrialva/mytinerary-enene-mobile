@@ -30,7 +30,7 @@ export default function Drawer() {
   if (role === null) {
     navItems.push(
       {name: "SignIn", component:SignIn},
-      {name: "SignUp", component:SignUp}
+      {name: "SignUp", component:SignUp},
       )
   }
 
