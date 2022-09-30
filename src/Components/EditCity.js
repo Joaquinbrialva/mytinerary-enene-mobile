@@ -3,46 +3,71 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Picker } from '@react-native-picker/picker';
 
-const NewCityForm = () => {
+const EditCity = () => {
 
-    const [country, setCountry] = useState()
     const [city, setCity] = useState()
     const [photo, setPhoto] = useState()
     const [population, setPopulation] = useState()
     const [fundation, setFundation] = useState()
     const [formValues, setFormValues] = useState()
+    const [bd, setBd] = useState([])
+    const [query, setQuery] = useState('')
+    const [id, setId] = useState('')
 
     useEffect(() => {
         let cityData = {
             city: city,
-            country: country,
             photo: photo,
             population: population,
             fundation: fundation,
         }
         setFormValues(cityData)
-    },[city, country, photo, population, fundation])
+    },[city, photo, population, fundation])
+
+
+    console.log(formValues)
+
+
+    useEffect(() => {
+      axios.get(`https://mytinerary-enene-back.herokuapp.com/cities/?city=all`)
+        .then(res => setBd(res.data.response))
+        .catch(err => console.error(err))
+    }, [])
+
+
+    let url = `https://mytinerary-enene-back.herokuapp.com/cities/${query}`
+
+    useEffect(() => {
+      if(city !== "" && bd.length !== 0){
+        setQuery(bd?.find(element => element?.city === city)._id)
+      }
+    }, [city])
 
     const handleSubmit = (e) => {
-        e.preventDefault()
 
         if (formValues.city.length < 3) {
-            Alert.alert('Name failed. Name must contain more than 3 letters')
-        } else if (formValues.country === "") {
-            Alert.alert(`Country failed. It seems that you didn't write anything, please fill this input`)
+            Alert.alert( 'Name must contain more than 3 letters' )
+        } else if (formValues.city === "") {
+            Alert.alert( `It seems that you didn't write anything, please fill this input` )
         } else if (formValues.photo.length < 5 && formValues.photo.startsWith('http')) {
-            Alert.alert('Photo failed. The photo must be a link and contain more than 5 characters')
+            Alert.alert( 'The photo must be a link and contain more than 5 characters' )
         } else if (formValues.population <= 100) {
-            Alert.alert("Population failed. The population it's bigger than that, don't you think? ")
+            Alert.alert( "The population it's bigger than that, don't you think? ")
         } else if (formValues.fundation <= 10) {
-            Alert.alert("Fundation failed. I know, there are cities older than Christ, but they are not available, please write again ")
+            Alert.alert( "I know, there are cities older than Christ, but they are not available, please write again ")
         } else {
-            axios.post('https://mytinerary-enene-back.herokuapp.com/cities', formValues)
+            axios.patch(url, formValues)
                 .then((response) => console.log(response))
                 .catch((error) => console.log(error))
 
-            Alert.alert('Succes. City created. You can create as many cities as you want')
+            Alert.alert('Succes, City edited')
         }
+    }
+
+    function generateSelect(item){
+      return(
+        <Picker.Item label={item.city} value={item.city} />
+      )
     }
 
     return (
@@ -51,26 +76,20 @@ const NewCityForm = () => {
             <ScrollView>
                 <View>
                     <Picker
-                        selectedValue={country}
-                        onValueChange={(itemValue) =>
-                            setCountry(itemValue)
-                        }>
-                        <Picker.Item label="Argentina" value="Argentina" />
-                        <Picker.Item label="Belgium" value="Belgium" />
-                        <Picker.Item label="Italy" value="Italy" />
-                        <Picker.Item label="France" value="France" />
+                        selectedValue={city}
+                        onValueChange={ itemValue => setCity(itemValue) }
+                      >
+                      {bd.map(generateSelect)}
                     </Picker>
-                    <Text style={styles.fixToText}>City Name</Text>
-                    <TextInput style={styles.inputs} onChangeText={text => setCity(text)}></TextInput>
                     <Text style={styles.fixToText}>Photo URL</Text>
                     <TextInput style={styles.inputs} onChangeText={text => setPhoto(text)}></TextInput>
                     <Text style={styles.fixToText}>Population</Text>
-                    <TextInput style={styles.inputs} onChangeText={text => setPopulation(text)}></TextInput>
+                    <TextInput keyboardType='numeric' style={styles.inputs} onChangeText={text => setPopulation(text)}></TextInput>
                     <Text style={styles.fixToText}>Fundation</Text>
-                    <TextInput style={styles.inputs} onChangeText={text => setFundation(text)}></TextInput>
+                    <TextInput keyboardType='numeric' style={styles.inputs} onChangeText={text => setFundation(text)}></TextInput>
                 </View>
                 <View style={styles.button}>
-                    <Button style={styles.textButton} title='Create' onPress={handleSubmit}>Create</Button>
+                    <Button style={styles.textButton} title='Edit' onPress={handleSubmit}/>
                 </View>
             </ScrollView>
         </View>
@@ -132,4 +151,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default NewCityForm
+export default EditCity
