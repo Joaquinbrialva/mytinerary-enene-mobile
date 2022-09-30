@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'
 import React from 'react'
 import axios from 'axios'
 import Arrow from './Arrow';
@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import APIurl from '../APIBack'
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
+let screenWidth = Dimensions.get("window").width;
 
 export default function Carousel() {
 
@@ -46,17 +47,6 @@ export default function Carousel() {
   }
 
 
-  // useEffect(() => {
-  //   let id = setInterval(function () {
-  //     next();
-  //   }, 3000)
-
-  //   setIntervalId(id)
-
-  //   return () => clearInterval(intervalId);
-  // }, [getStart]);
-
-
 
 
   const itemView = (item) => (
@@ -70,7 +60,7 @@ export default function Carousel() {
     <>
       <View >
         <Image style={styles.hero} source={require('../../assets/hero.png')}/>
-        <Text style={{textAlign:'center',fontSize:22,fontStyle:'italic' , padding:20,marginTop:10,marginBottom:10,backgroundColor:'#FFB266'}}>Popular MYtineraries</Text>
+        <Text style={{textAlign:'center',fontSize:22,fontStyle:'italic' , padding:20,marginTop:10,marginBottom:10,fontWeight:'bold'}}>Popular MYtineraries</Text>
 
       </View>
       <View >
@@ -100,7 +90,7 @@ const styles = StyleSheet.create({
 
   },
   hero:{
-    width:420,
+    width: screenWidth,
     height:300,
   },
   carousel:{

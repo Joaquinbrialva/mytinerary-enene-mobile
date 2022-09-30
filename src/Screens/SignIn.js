@@ -1,6 +1,8 @@
 
-import { View,Text, Button,StyleSheet, Alert } from 'react-native'
-import React, { useEffect,useInsertionEffect,useState } from 'react'
+
+import { View, Text, Button,StyleSheet, Alert, ImageBackground, Dimensions } from 'react-native'
+import React, { useEffect,useState } from 'react'
+
 import {useAddUserSignInMutation} from '../../features/citiesAPI'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../../features/authSlice'
@@ -8,7 +10,8 @@ import { TextInput } from 'react-native-gesture-handler'
 import  AsyncStorage  from '@react-native-async-storage/async-storage'
 
 
-
+let ScreenHeight = Dimensions.get("window").height;
+let ScreenWidth = Dimensions.get("window").width;
 
 export default function SignIn() {
 
@@ -101,31 +104,41 @@ const handleSubmit = async () =>{
 
 
   return (
-    <View style={styles.container}>
-        <Text style={styles.title}>Please Sign In</Text>
-      <View onSubmit={handleSubmit} >
-    <View >
-        <View >
-
-    <Text style={styles.fixToText}>Email</Text>
-    <TextInput style={styles.inputs} type='mail' onChangeText={text =>setEmail(text)}></TextInput>
-    <Text style={styles.fixToText} >Password</Text>
-    <TextInput style={styles.inputs} secureTextEntry={true} type='password' onChangeText={text =>setPassword(text)}></TextInput>
+    <View>
+      <ImageBackground source={require('../../assets/nav_logo.png')} resizeMode="contain" style={styles.containerMain}>
+        <View style={styles.container}>
+            <Text style={styles.title}>Please Sign In</Text>
+          <View onSubmit={handleSubmit} >
+            <View >
+              <View >
+                <Text style={styles.fixToText}>Email</Text>
+                <TextInput style={styles.inputs} type='mail' onChangeText={text =>setEmail(text)}></TextInput>
+                <Text style={styles.fixToText} >Password</Text>
+                <TextInput style={styles.inputs} secureTextEntry={true} type='password' onChangeText={text =>setPassword(text)}></TextInput>
+              </View>
+                <View style={styles.button}>
+                  <Button style={ styles.textButton} title='Sign In'  onPress={handleSubmit}>Sign In</Button>
+                </View>
+            </View>
+          </View>
         </View>
-        <View style={styles.button}>
-        <Button style={ styles.textButton} title='Sign In'  onPress={handleSubmit}>Sign In</Button>
-
-        </View>
-    </View>
-   </View>
+      </ImageBackground>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+
+  containerMain:{
+    height: ScreenHeight,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: ScreenWidth,
+  },
+
   container: {
-    marginLeft:50,
-    marginTop:50,
+    display: 'flex',
     alignItems:'center',
     textAlign:'center',
     width:300,
@@ -134,11 +147,10 @@ const styles = StyleSheet.create({
     borderRadius:10,
     overflow:'hidden',
     backgroundColor :'white',
-    borderWidth:1
-    
- 
-    
+    borderWidth:1,
+    opacity:0.95
   },
+
   title: {
     textAlign: 'center',
     marginTop:70,
@@ -157,17 +169,13 @@ const styles = StyleSheet.create({
   },
 
   inputs:{
-
-   
-   
     borderRadius:5,
     width:200,
     height:30,
     color:'black',
-    backgroundColor: '#FFFFFF',
     borderWidth:0.5
-  
   },
+
   button: {
     marginTop:20,
     alignItems: 'center',
