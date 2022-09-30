@@ -17,7 +17,7 @@ const dispatch = useDispatch()
 const [mail,setEmail]=useState()
 const [password,setPassword]=useState()
 const [user,setUser]=useState()
-
+const [stor,setStor]=useState()
 
 
 
@@ -27,7 +27,7 @@ useEffect(()=>{
     let obj ={
         mail:mail,
         password:password,
-        form:'form',
+        from:'form',
         role:'user'
     }
 
@@ -37,7 +37,7 @@ useEffect(()=>{
 
 const [signInUser] = useAddUserSignInMutation()
 
-async function handleSubmit (e) {
+const handleSubmit = (e)=> {
     e.preventDefault()
     console.log('hola')
     console.log(user)
@@ -49,9 +49,17 @@ async function handleSubmit (e) {
     }else{
 
     try {
-        let res = await signInUser(user)
+        let res =signInUser(user)
+                .unwrap()
+                .then(() => {console.log('envio')})
+                .then((error) => {
+                    console.log(error)
+                })
+        console.log(user)
         AsyncStorage.setItem('token',JSON.stringify(res.data.response.user))
         dispatch(setCredentials(res.data.response.user))
+        AsyncStorage.getItem('token').then(value => setStor(JSON.parse(value)))
+      
     }catch(err){
         console.error(err)
     }
@@ -90,7 +98,6 @@ const styles = StyleSheet.create({
   container: {
     marginLeft:50,
     marginTop:50,
-    justifyContent:'space between',
     alignItems:'center',
     textAlign:'center',
     width:300,

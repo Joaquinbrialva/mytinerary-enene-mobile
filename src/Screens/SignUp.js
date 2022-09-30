@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     container: {
       marginLeft:50,
       marginTop:50,
-      justifyContent:'space between',
       alignItems:'center',
       textAlign:'center',
       width:300,
@@ -113,10 +112,7 @@ const styles = StyleSheet.create({
       borderRadius:10,
       overflow:'hidden',
       backgroundColor :'white',
-      borderWidth:1
-      
-   
-      
+      borderWidth:1     
     },
     title: {
       textAlign: 'center',
