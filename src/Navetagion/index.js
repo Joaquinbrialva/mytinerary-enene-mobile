@@ -1,22 +1,24 @@
 
 import * as React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Details from '../Components/Details';
-import Drawer from './Drawer';
+import HomeScreen from '../Screens/HomeScreen';
+import Drawer from '../Components/Drawer';
+import Itinerary from '../Components/Itinerary';
 
 const Stack = createNativeStackNavigator();
 
-function MyStack() {
+function Index() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="Drawer" component={Drawer} />
+            <Stack.Navigator initialRouteName={HomeScreen}>
+                <Stack.Screen name="Drawer" component={Drawer} options={{headerShown:false}} />
                 <Stack.Screen name="Details" component={Details} />
+                <Stack.Screen name="Itinerary" component={Itinerary} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
 
-export default MyStack;
+export default Index;
