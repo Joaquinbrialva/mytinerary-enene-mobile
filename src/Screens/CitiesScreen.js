@@ -5,7 +5,7 @@ import CityCard from '../Components/CityCard'
 export default function CitiesScreen() {
   return (
     <View>
-      <CityCard />
+      <CityCard/>
     </View>
   )
 }
