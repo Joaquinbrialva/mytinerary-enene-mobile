@@ -4,17 +4,20 @@ import { useEffect, useState } from 'react';
 import axios from 'axios'
 // import ModalCreate from './Modals/ModalCreate';
 import APIurl from '../APIBack';
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 function Details(props) {
 
     const [cities, setCities] = useState([])
-    const [itinerary, setItinerary] = useState(false)
 
     useEffect(() => {
         axios.get(`${APIurl}/cities/${props.route.params.itemId}`)
             .then(res => setCities([res.data.response]))
             .catch(err => console.error(err))
     }, [])
+
+    const navigation = useNavigation()
 
     const detailsItem = item => (
         <>
@@ -30,6 +33,11 @@ function Details(props) {
                     <Text>Population: {item.population}</Text>
                     <Text>Fundation: {item.fundation}</Text>
                 </View>
+                <Button
+                    color="#ABBF7C"
+                    title="Check itineraries"
+                    onPress={() => navigation.navigate('Itinerary', { itemId: item._id })}
+                />
             </View>
         </>
     )
