@@ -22,29 +22,29 @@ function Details(props) {
     const detailsItem = item => (
 
         <>
-            <View className="details-container">
-                <View className="details-img-body">
-                    <View>
-                        <Image style={styles.logo} source={{ uri: item.photo }} />
-                    </View>
+            <View style={styles.container}>
+                <View style={styles.imgContainer}>
+                    <Image style={styles.img} source={{ uri: item.photo }} />
                 </View>
-                <View className='details-body'>
-                    <Text>Name: {item.city}</Text>
-                    <Text>Country: {item.country}</Text>
-                    <Text>Population: {item.population}</Text>
-                    <Text>Fundation: {item.fundation}</Text>
+                <View style={styles.info}>
+                    <Text style={styles.text}>Name: {item.city}</Text>
+                    <Text style={styles.text}>Country: {item.country}</Text>
+                    <Text style={styles.text}>Population: {item.population}</Text>
+                    <Text style={styles.text}>Fundation: {item.fundation}</Text>
                 </View>
-                <Button
-                    color="#ABBF7C"
-                    title="Check itineraries"
-                    onPress={() => navigation.navigate('Itinerary', { itemId: item._id })}
-                />
+                <View style={styles.button}>
+                    <Button
+                        color="#ABBF7C"
+                        title="Check itineraries"
+                        onPress={() => navigation.navigate('Itinerary', { itemId: item._id })}
+                    />
+                </View>
             </View>
         </>
     )
 
     return (
-        <View className='main-content'>
+        <View>
             {cities.map(detailsItem)}
             {/* {itinerary ? <ModalCreate children={cities[0]} onClose={handleClose} /> : cities.map(detailsItem)} */}
         </View>
@@ -52,10 +52,35 @@ function Details(props) {
 }
 
 const styles = StyleSheet.create({
-    logo: {
-        width: 200,
-        height: 100,
+    container: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        padding: 30
     },
+
+    imgContainer: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+
+    img: {
+        width: 320,
+        height: 300,
+        borderRadius: 10,
+    },
+
+    info: {
+        marginTop: 20
+    },
+
+    text: {
+        fontSize: 16,
+        marginTop: 5,
+    },
+
+    button: {
+        marginTop: 20
+    }
 });
 
 export default Details
